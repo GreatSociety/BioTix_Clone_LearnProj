@@ -30,6 +30,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public TeamSelector teamSelect;
     private Team team;
 
+    public Team Team => team;
+
     // Dependent variables 
     private int maxHP;
     private float size;
@@ -111,7 +113,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             {
                 if (x != target)
                 {
-                    x.Shoot();
+                    x.Shoot(target);
                 }
             }
 
@@ -119,7 +121,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
     }
 
-    public void Shoot()
+    public void Shoot(Cell target)
     {
         if (this != target)
         {
@@ -137,9 +139,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 z.Init(team);
                 z.MovingToTarget(target);
             }
-
-            
         }
+        
     }
 
     public void Taking(Inject obj)
