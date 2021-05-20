@@ -529,7 +529,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 237138824, guid: 5c33863c2b7dff74db9a02cc3035b07f, type: 3}
       propertyPath: hp
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 237138824, guid: 5c33863c2b7dff74db9a02cc3035b07f, type: 3}
       propertyPath: type
@@ -614,7 +614,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 237138824, guid: 5c33863c2b7dff74db9a02cc3035b07f, type: 3}
       propertyPath: hp
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 237138824, guid: 5c33863c2b7dff74db9a02cc3035b07f, type: 3}
       propertyPath: type

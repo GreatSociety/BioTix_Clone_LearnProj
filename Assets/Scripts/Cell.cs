@@ -22,6 +22,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     [SerializeField] private int hp;
 
+    LineRenderer line;
+
     private bool corutineRunning = false;
 
     // Team variables
@@ -39,6 +41,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // Start is called before the first frame update
     void Awake()
     {
+        line = GetComponent<LineRenderer>();
+
         maxHP = type.MaxHP;
         size = type.Size;
 
@@ -50,7 +54,6 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         Scale(this.gameObject);
 
         TeamSelect();
-
     }
 
     public void TeamSelect()
@@ -111,6 +114,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                     x.Shoot();
                 }
             }
+
+            ClearSelect();
         }
     }
 
@@ -132,6 +137,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 z.Init(team);
                 z.MovingToTarget(target);
             }
+
+            
         }
     }
 
@@ -155,6 +162,15 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         HPChecker();
     }
 
+    public static void ClearSelect()
+    {
+        if (OnSelect.Count > 0)
+        {
+            OnSelect.ForEach(Cell => Cell.Unselect());
+            OnSelect.Clear();
+        }
+    }
+
     private void HPChecker()
     {
         if (team is Neutral)
@@ -172,8 +188,9 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             SelectUI();
         }
 
-        if (OnSelect.Count > 1)
+        if (OnSelect.Count > 1 && OnSelect.Contains(this))
             target = this;
+
     }
 
     private void SelectUI()
@@ -183,10 +200,15 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             selectCirc = Instantiate(selectIcon, transform.localPosition, transform.localRotation);
             Scale(selectCirc);
         }
+
+        line.enabled = true;
     }
 
     public void Unselect()
-        => Destroy(selectCirc);
+    {
+        Destroy(selectCirc);
+        line.enabled = false;
+    }
 
     private void Scale(GameObject obj)
     {
@@ -236,26 +258,14 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         corutineRunning = false;
     }
 
-    IEnumerator HpDown()
+    public void LineToAim(Vector3 lol)
     {
+        Vector3[] getToThePointMotherfacker;
 
-        while (hp < maxHP)
-        {
-            this.hp++;
+        getToThePointMotherfacker = new Vector3[2] { transform.position, Camera.main.ScreenToWorldPoint(lol) };
 
-            yield return new WaitForSeconds(Random.Range(1.5f, 2f));
+        line.SetPositions(getToThePointMotherfacker);
 
-            HpTextUpdate();
-        }
-
-        while (hp > maxHP)
-        {
-            this.hp -= 2;
-
-            yield return new WaitForSeconds(Random.Range(1.5f, 2f));
-
-            HpTextUpdate();
-        }
     }
 
 
