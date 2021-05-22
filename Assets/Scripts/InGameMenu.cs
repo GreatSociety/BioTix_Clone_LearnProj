@@ -3,8 +3,6 @@ using UnityEngine.EventSystems;
 
 public class InGameMenu : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] GameObject MenuIcon;
-
     [SerializeField] Canvas Menu;
 
     public static int layersPlay;

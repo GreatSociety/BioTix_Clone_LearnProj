@@ -28,12 +28,14 @@ public class Background : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void ToAim()
     {
-        if (Input.touchCount > 0 && Cell.OnSelect.Count > 0)
+        if (Input.touchCount > 0 )//&& Cell.OnSelect.Count > 0)
         {
             Vector2 endPos = Input.GetTouch(0).position + Input.GetTouch(0).deltaPosition;
 
             Cell.OnSelect.ForEach(Cell => Cell.LineToAim(endPos));
         }
+        else 
+            Cell.OnSelect.ForEach(Cell => Cell.LineFade());
     }
 
     public void Update()
@@ -45,10 +47,6 @@ public class Background : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f);
 
             Cell.OnSelect.ForEach(Cell => Cell.LineToAim(mousePos));
-
-            print(Input.mousePosition);
-
-            print(mousePos);
         }
     }
 

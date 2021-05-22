@@ -24,7 +24,11 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     LineRenderer line;
 
+    Vector3 clickPos;
+
     private bool corutineRunning = false;
+
+    public static event System.Action TeamChange;
 
     // Team variables
     public TeamSelector teamSelect;
@@ -43,6 +47,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     // Start is called before the first frame update
     void Awake()
     {
+        print(clickPos);
         line = GetComponent<LineRenderer>();
 
         maxHP = type.MaxHP;
@@ -85,6 +90,9 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
         if (team is Player)
         {
+            if (!OnSelect.Contains(this))
+                clickPos = eventData.position;
+
             Select();
             SelectTargetOnTeam();
         }
@@ -94,17 +102,13 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Не срабатывает на мобилке. Точнее, срабатывает, но после Enter;
-        if (OnSelect.Contains(this))
-            SelectTargetOnTeam();
-
-        if (team is Player)
+        if (team is Player && clickPos != Vector3.zero)
         {
-            Select();
+            target = null;
+            clickPos = Vector3.zero;
         }
         else
             target = this;
-
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -149,7 +153,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
                 z.MovingToTarget(target);
             }
         }
-        
+
     }
 
     public void Taking(Inject obj)
@@ -158,6 +162,8 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             this.team = obj.team;
             center.color = team.TeamColor;
+
+            TeamChange?.Invoke();
         }
 
         if (obj.team == this.team)
@@ -197,9 +203,6 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             OnSelect.Add(this);
             SelectUI();
         }
-
-        /*if (OnSelect.Count > 1)
-            target = this;*/
     }
 
     public void SelectTargetOnTeam()
@@ -222,7 +225,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void Unselect()
     {
         Destroy(selectCirc);
-        line.enabled = false;
+        LineFade();
     }
 
     private void Scale(GameObject obj)
@@ -275,11 +278,17 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void LineToAim(Vector3 lol)
     {
+        line.enabled = true;
+
         Vector3[] getToThePointMotherfacker;
 
         getToThePointMotherfacker = new Vector3[2] { transform.position, Camera.main.ScreenToWorldPoint(lol) };
 
         line.SetPositions(getToThePointMotherfacker);
+    }
 
+    public void LineFade()
+    {
+        line.enabled = false;
     }
 }

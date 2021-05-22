@@ -55,8 +55,6 @@ public class Bottas : MonoBehaviour
 
     private void Destroy()
     {
-        print(SelectedOnBot.Count);
-
         foreach (Cell x in SelectedOnBot)
         {
             if (SelectedOnBot.Count <= 1)
