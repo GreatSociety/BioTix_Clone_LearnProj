@@ -81,19 +81,27 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-
         eventData.pointerPress = this.gameObject;
-        // А че по боту? Не рабочий вариант 
+
         if (team is Player)
+        {
             Select();
+            SelectTargetOnTeam();
+        }
         else
             target = this;
 
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        // Не срабатывает на мобилке. Точнее, срабатывает, но после Enter;
+        if (OnSelect.Contains(this))
+            SelectTargetOnTeam();
+
         if (team is Player)
+        {
             Select();
+        }
         else
             target = this;
 
@@ -107,7 +115,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (target)
+        if (this == target)
         {
             foreach (Cell x in OnSelect)
             {
@@ -118,6 +126,7 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             }
 
             ClearSelect();
+            target = null;
         }
     }
 
@@ -189,9 +198,14 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             SelectUI();
         }
 
-        if (OnSelect.Count > 1 && OnSelect.Contains(this))
-            target = this;
+        /*if (OnSelect.Count > 1)
+            target = this;*/
+    }
 
+    public void SelectTargetOnTeam()
+    {
+        if (OnSelect.Count > 1)
+            target = this;
     }
 
     private void SelectUI()
@@ -268,6 +282,4 @@ public class Cell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         line.SetPositions(getToThePointMotherfacker);
 
     }
-
-
 }

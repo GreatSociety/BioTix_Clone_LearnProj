@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,6 +5,8 @@ public class Inject : MonoBehaviour
 {
     public Team team;
     Sequence snakeScale;
+
+    Tween movingToTarget;
 
     public void Awake()
     {
@@ -18,14 +18,15 @@ public class Inject : MonoBehaviour
         snakeScale.Append(transform.DOScale(new Vector3(2f, 0.5f), 0.2f));
         snakeScale.Append(transform.DOScale(new Vector3(1f, 1f), 0.2f));
         snakeScale.Append(transform.DOLocalMoveX(1f, 0.1f));
-        snakeScale.SetLoops(150);
+        snakeScale.SetLoops(30);
     }
 
     public void MovingToTarget(Cell target)
     {
         Vector3 lol = new Vector3(target.transform.position.x + Random.Range(-0.4F, 0.4F), target.transform.position.y + Random.Range(-0.4F, 0.4F));
 
-        transform.DOMove(lol, Random.Range(4f, 8f)).OnComplete(() => target.Taking(this)).SetEase(Ease.Linear);
+        movingToTarget = transform.DOMove(lol, Random.Range(4f, 8f)).OnComplete(() => target.Taking(this));
+        movingToTarget.SetEase(Ease.Linear);
 
         SnakeScale();
 
@@ -41,6 +42,7 @@ public class Inject : MonoBehaviour
     private void OnDestroy()
     {
         snakeScale.Complete();
+        movingToTarget.Complete();
     }
 
 }

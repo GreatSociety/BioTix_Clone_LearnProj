@@ -18,7 +18,6 @@ public class Bottas : MonoBehaviour
     void Start()
     {
         Cells = GameObject.FindGameObjectsWithTag("Cell");
-
     }
 
     // Update is called once per frame

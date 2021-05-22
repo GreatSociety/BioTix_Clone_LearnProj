@@ -1,11 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class Background : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     Vector2 startPos;
+
+    public void Awake()
+    {
+        DOTween.timeScale = 1;
+        Time.timeScale = 1;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -17,6 +22,7 @@ public class Background : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (startPos == eventData.position)
         {
             Cell.ClearSelect();
+            Cell.target = null;
         }
     }
 
@@ -27,16 +33,6 @@ public class Background : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Vector2 endPos = Input.GetTouch(0).position + Input.GetTouch(0).deltaPosition;
 
             Cell.OnSelect.ForEach(Cell => Cell.LineToAim(endPos));
-        }
-    }
-
-
-    public void ClearSelect()
-    {
-        if (Cell.OnSelect.Count > 0)
-        {
-            Cell.OnSelect.ForEach(Cell => Cell.Unselect());
-            Cell.OnSelect.Clear();
         }
     }
 
