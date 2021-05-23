@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WinCheck : MonoBehaviour
 {
+    [SerializeField] FinalScreen screen;
+
     public static List<Cell> Cells;
 
     bool botWin;
@@ -50,9 +52,9 @@ public class WinCheck : MonoBehaviour
     private void Destiny()
     {
         if (botWin && !playerWin)
-            print("You Looooose");
+            screen.Lose();
         else if (!botWin && playerWin)
-            print("You Win!");
+            screen.Win();
 
     }
 

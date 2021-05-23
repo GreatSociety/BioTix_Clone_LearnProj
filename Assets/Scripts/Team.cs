@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Team 
+public abstract class Team
 {
     protected ColorContainer theme = new ColorContainer();
 
     abstract public string Name { get; }
 
     abstract public Color TeamColor { get; }
+
 }
 public class Player : Team
 {
     public override string Name => "Player";
 
-    public override Color TeamColor => Color.red;
+    public override Color TeamColor => Color.white;
 }
 
 public class Neutral : Team
@@ -29,8 +30,14 @@ public class Bot : Team
 {
     public override string Name => "Bot";
 
-    public override Color TeamColor => Random.value > 0.5f ? theme.botBlue : theme.botYellow;
-  
+    public override Color TeamColor => teamColor;
+
+    private Color teamColor;
+
+    public Bot()
+    {
+        this.teamColor = Random.value > 0.5f ? theme.botBlue : theme.botYellow;
+    }
 }
 
 public enum TeamSelector
