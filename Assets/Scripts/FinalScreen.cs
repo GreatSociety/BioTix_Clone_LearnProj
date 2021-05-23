@@ -11,8 +11,11 @@ public class FinalScreen : MonoBehaviour
 
     [SerializeField] GameObject nextButton;
 
+    [SerializeField] Ads ads;
+
     public void Win()
     {
+        ads.ShowRewardedVideo();
         screen.enabled = true;
         message.text = "Победа";
         nextButton.SetActive(true);
@@ -20,6 +23,7 @@ public class FinalScreen : MonoBehaviour
 
     public void Lose()
     {
+        ads.ShowRewardedVideo();
         screen.enabled = true;
         message.text = "Поражение";
         nextButton.SetActive(false);

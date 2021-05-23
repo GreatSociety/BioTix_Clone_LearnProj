@@ -56,6 +56,7 @@ public class WinCheck : MonoBehaviour
         else if (!botWin && playerWin)
             screen.Win();
 
+        Debug.Log(botWin + " " + playerWin);
     }
 
     private void OnDestroy()

@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 5162464350121114010}
   - component: {fileID: 1468227701627229274}
   - component: {fileID: 5270523958864586300}
+  - component: {fileID: 5922095450473078036}
   m_Layer: 5
   m_Name: FinalScreen
   m_TagString: Untagged
@@ -336,6 +337,19 @@ MonoBehaviour:
   screen: {fileID: 5702726489161248360}
   message: {fileID: 1964272638076323020}
   nextButton: {fileID: 3859128242386860684}
+  ads: {fileID: 5922095450473078036}
+--- !u!114 &5922095450473078036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6414749631446148311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af02c4cfb8c30754d86c1522df99e19e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7132640483433636069
 GameObject:
   m_ObjectHideFlags: 0
